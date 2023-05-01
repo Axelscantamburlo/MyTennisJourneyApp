@@ -17,15 +17,16 @@ export default function WelcomeScreen({ navigation }) {
       </View>
 
       <TouchableOpacity
+        activeOpacity={1}
         style={styles.button}
-        onPress={() => navigation.navigate("NameRequest")}
+        onPress={() => navigation.navigate("Name")}
       >
-        <Text style={{ fontSize: 20, color: 'white' }}>C'est parti !</Text>
+        <Text style={{ fontSize: 20, color: "white" }}>C'est parti !</Text>
       </TouchableOpacity>
       <View style={styles.loginTextContainer}>
         <Text>Déjà un compte ? </Text>
         <TouchableHighlight onPress={() => navigation.navigate("Login")}>
-          <Text style={{color: 'blue'}}>Connectez-vous</Text>
+          <Text style={{ color: "blue" }}>Connectez-vous</Text>
         </TouchableHighlight>
       </View>
     </View>
@@ -68,15 +69,15 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     marginTop: 130,
-    padding: 13,
-    borderRadius: 5,
+    padding: 15,
+    borderRadius: 10,
   },
   loginTextContainer: {
     width: "70%",
-    flexDirection: 'row',
-    display: 'flex',
-    justifyContent:'center',
-    position: 'absolute',
-    bottom: 60
-  }
+    flexDirection: "row",
+    display: "flex",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: 60,
+  },
 });
