@@ -34,7 +34,7 @@ export default function AgeScreen({ navigation }) {
           />
         </View>
       </View>
-      <SliderBar slide={3} path="Size" navigation={navigation} />
+      <SliderBar slide={3} path="Size" navigation={navigation} text='Suivant' />
     </View>
   );
 }
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   questionText: {
-    fontSize: 23,
+    fontSize: 22,
     textAlign: "center",
   },
   sliderContainer: {

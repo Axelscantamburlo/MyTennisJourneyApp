@@ -89,7 +89,7 @@ export default function LevelPlayerScreen({ navigation }) {
         <View >
           <Text style={styles.text}>{text}</Text>
         </View>
-      <SliderBar slide={6} path="Ranking" navigation={navigation} />
+      <SliderBar slide={6} path="Ranking" navigation={navigation} text='Suivant' />
     </View>
   );
 }
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   questionText: {
     textAlign: "center",
-    fontSize: 23,
+    fontSize: 22,
   },
   buttonContainer: {
     width: "85%",

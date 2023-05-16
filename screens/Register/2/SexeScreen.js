@@ -50,7 +50,7 @@ export default function SexeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      <SliderBar slide={2} path="Age" navigation={navigation} />
+      <SliderBar slide={2} path="Age" navigation={navigation} text='Suivant' />
     </View>
   );
 }
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     height: "45%",
   },
   questionText: {
-    fontSize: 23,
+    fontSize: 22,
     textAlign: "center",
   },
   buttonContainer: {

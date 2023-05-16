@@ -9,9 +9,9 @@ export default function NameScreen({ navigation }) {
       <BackIcon path="Welcome" navigation={navigation} />
       <View style={styles.centerContainer}>
         <Text style={styles.questionText}>Quel est votre prénom ?</Text>
-        <TextInput style={styles.input} placeholder="Prénom" />
+        <TextInput style={styles.textInput} placeholder="Prénom" />
       </View>
-      <SliderBar slide={1} path="Sexe" navigation={navigation} />
+      <SliderBar slide={1} path="Sexe" navigation={navigation} text='Suivant' />
     </View>
   );
 }
@@ -27,16 +27,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  input: {
-    width: "85%",
-    padding: 17,
-    borderWidth: 1,
+  textInput: {
+    padding: 13,
+    borderBottomWidth: 1,
     borderColor: "grey",
     borderRadius: 5,
-    fontSize: 20
+    fontSize: 17,
+    width: "85%"
   },
   questionText: {
-    fontSize: 23,
+    fontSize: 22,
     textAlign: "center",
   },
 });

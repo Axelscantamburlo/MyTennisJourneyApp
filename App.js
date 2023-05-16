@@ -11,6 +11,10 @@ import SizeScreen from "./screens/Register/4/SizeScreen";
 import WeightScreen from "./screens/Register/5/WeightScreen";
 import LevelPlayerScreen from "./screens/Register/6/LevelPlayerScreen";
 import RankingScreen from "./screens/Register/7/RankingScreen";
+import RankingGoalScreen from "./screens/Register/8/RankingGoalScreen";
+import GoalsScreen from "./screens/Register/9/GoalsScreen";
+import EmailPasswordScreen from "./screens/Register/10/EmailPasswordScreen";
+import ValidationRegisterScreen from "./screens/Register/11/ValidationRegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -69,6 +73,26 @@ export default function App() {
         <Stack.Screen
           name="Ranking"
           component={RankingScreen}
+          options={{ headerShown: false, gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="RankingGoal"
+          component={RankingGoalScreen}
+          options={{ headerShown: false, gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="Goals"
+          component={GoalsScreen}
+          options={{ headerShown: false, gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="EmailPassword"
+          component={EmailPasswordScreen}
+          options={{ headerShown: false, gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="ValidationRegister"
+          component={ValidationRegisterScreen}
           options={{ headerShown: false, gestureEnabled: false }}
         />
       </Stack.Navigator>

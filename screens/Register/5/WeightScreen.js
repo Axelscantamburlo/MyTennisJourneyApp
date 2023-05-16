@@ -42,7 +42,7 @@ export default function WeightScreen({ navigation }) {
           />
         </View>
       </View>
-      <SliderBar slide={5} path="LevelPlayer" navigation={navigation} />
+      <SliderBar slide={5} path="LevelPlayer" navigation={navigation} text='Suivant' />
     </View>
   );
 }
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   questionText: {
-    fontSize: 23,
+    fontSize: 22,
     textAlign: "center",
   },
   sliderContainer: {
