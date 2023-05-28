@@ -1,31 +1,46 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import SliderBar from "../../../components/SliderBar";
 import BackIcon from "../../../components/BackIcon";
 
+
+// redux
+
+import { useDispatch } from 'react-redux';
+import { setName } from "../../../redux/actions";
+
+
 export default function NameScreen({ navigation }) {
+
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.container}>
       <BackIcon path="Welcome" navigation={navigation} />
       <View style={styles.centerContainer}>
         <Text style={styles.questionText}>Quel est votre prénom ?</Text>
-        <TextInput style={styles.textInput} placeholder="Prénom" />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Prénom"
+          onChangeText={(value) => dispatch(setName(value))}
+        />
       </View>
-      <SliderBar slide={1} path="Sexe" navigation={navigation} text='Suivant' />
+      <SliderBar slide={1} path="Sexe" navigation={navigation} text="Suivant" />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
     height: "100%",
   },
   centerContainer: {
-    marginTop: 120,
+    marginTop: 110,
     height: "25%",
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   textInput: {
     padding: 13,
@@ -33,7 +48,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     borderRadius: 5,
     fontSize: 17,
-    width: "85%"
+    width: "85%",
   },
   questionText: {
     fontSize: 22,

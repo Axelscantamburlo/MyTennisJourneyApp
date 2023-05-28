@@ -55,7 +55,6 @@ export default function GoalsScreen({ navigation }) {
     newInputs.splice(index, 1);
     setTextInputs(newInputs);
   };
-  console.log(textInputs);
 
   return (
     <View style={styles.container}>
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   centerContainer: {
-    marginTop: 120,
+    marginTop: 110,
     width: "85%",
     display: "flex",
     alignItems: "center",

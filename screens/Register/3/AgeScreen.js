@@ -5,13 +5,20 @@ import BackIcon from "../../../components/BackIcon";
 import Slider from "@react-native-community/slider";
 import debounce from 'lodash/debounce';
 
+// redux
+
+import { useDispatch } from 'react-redux';
+import { setAge } from "../../../redux/actions";
 
 export default function AgeScreen({ navigation }) {
 
-  const [age, setAge] = useState(25)
+  const dispatch = useDispatch();
+
+  const [localAge, setLocalAge] = useState(25)
 
   const onValueChangeDebounced = debounce((newValue) => {
-    setAge(newValue);
+    setLocalAge(newValue)
+    dispatch(setAge(newValue))
   }, 1);
 
   return (
@@ -20,7 +27,7 @@ export default function AgeScreen({ navigation }) {
       <View style={styles.centerContainer}>
         <Text style={styles.questionText}>Quel âge avez-vous ?</Text>
         <View style={styles.sliderContainer}>
-          <Text style={{fontSize: 25}}>{age}</Text>
+          <Text style={{fontSize: 25}}>{localAge}</Text>
           <Slider
             style={styles.slider}
             minimumValue={8}
@@ -29,8 +36,8 @@ export default function AgeScreen({ navigation }) {
             maximumTrackTintColor="orange"
             thumbTintColor="white"
             step={1}
-            value={age}
             onValueChange={onValueChangeDebounced}
+            value={localAge}
           />
         </View>
       </View>
@@ -46,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   centerContainer: {
-    marginTop: 120,
+    marginTop: 110,
     height: "25%",
     display: "flex",
     justifyContent: "space-between",

@@ -3,7 +3,14 @@ import React, { useEffect, useState } from "react";
 import BackIcon from "../../../components/BackIcon";
 import SliderBar from "../../../components/SliderBar";
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setLevelPlayeur } from "../../../redux/actions";
+
 export default function LevelPlayerScreen({ navigation }) {
+
+  const dispatch = useDispatch();
+
   const [toggleButton, setToggleButton] = useState(0);
 
   const [text, setText] = useState("");
@@ -13,8 +20,10 @@ export default function LevelPlayerScreen({ navigation }) {
     setText('')
   }, []);
 
-  const toggleStyleButton = (number) => {
+  const toggleStyleButton = (number, value) => {
     setToggleButton(number);
+    dispatch(setLevelPlayeur(value)) 
+
 
     if (number === 1) {
       setText(
@@ -50,7 +59,7 @@ export default function LevelPlayerScreen({ navigation }) {
               toggleButton === 1 && { backgroundColor: "red" },
             ])}
             activeOpacity={1}
-            onPress={() => toggleStyleButton(1)}
+            onPress={() => toggleStyleButton(1, "Débutant")}
           >
             <Text style={styles.buttonText}>Débutant</Text>
           </TouchableOpacity>
@@ -60,7 +69,7 @@ export default function LevelPlayerScreen({ navigation }) {
               toggleButton === 2 && { backgroundColor: "red" },
             ])}
             activeOpacity={1}
-            onPress={() => toggleStyleButton(2)}
+            onPress={() => toggleStyleButton(2, "Intermédiaire")}
           >
             <Text style={styles.buttonText}>Intermédiaire</Text>
           </TouchableOpacity>
@@ -70,7 +79,7 @@ export default function LevelPlayerScreen({ navigation }) {
               toggleButton === 3 && { backgroundColor: "red" },
             ])}
             activeOpacity={1}
-            onPress={() => toggleStyleButton(3)}
+            onPress={() => toggleStyleButton(3, "Avancé")}
           >
             <Text style={styles.buttonText}>Avancé</Text>
           </TouchableOpacity>
@@ -80,7 +89,7 @@ export default function LevelPlayerScreen({ navigation }) {
               toggleButton === 4 && { backgroundColor: "red" },
             ])}
             activeOpacity={1}
-            onPress={() => toggleStyleButton(4)}
+            onPress={() => toggleStyleButton(4, "Expert")}
           >
             <Text style={styles.buttonText}>Expert</Text>
           </TouchableOpacity>
@@ -101,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   centerContainer: {
-    marginTop: 120,
+    marginTop: 110,
     width: "100%",
     height: "55%",
     display: "flex",

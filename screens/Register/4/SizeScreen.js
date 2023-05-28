@@ -3,13 +3,22 @@ import React, { useState } from "react";
 import BackIcon from "../../../components/BackIcon";
 import SliderBar from "../../../components/SliderBar";
 import Slider from "@react-native-community/slider";
-import debounce from "lodash/debounce";
+import debounce from 'lodash/debounce';
+
+// redux
+
+import { useDispatch } from 'react-redux';
+import { setSize } from "../../../redux/actions";
 
 export default function SizeScreen({ navigation }) {
-  const [size, setSize] = useState(175);
+
+  const dispatch = useDispatch();
+
+  const [localSize, setLocalSize] = useState(175);
 
   const onValueChangeDebounced = debounce((newValue) => {
-    setSize(newValue);
+    setLocalSize(newValue);
+    dispatch(setSize(newValue))
   }, 1);
 
   return (
@@ -25,7 +34,7 @@ export default function SizeScreen({ navigation }) {
               alignItems: "flex-end",
             }}
           >
-            <Text style={{ fontSize: 25 }}>{size}</Text>
+            <Text style={{ fontSize: 25 }}>{localSize}</Text>
             <Text style={{ fontSize: 13, marginBottom: 3, marginLeft: 5 }}>
               cm
             </Text>
@@ -38,8 +47,8 @@ export default function SizeScreen({ navigation }) {
             maximumTrackTintColor="orange"
             thumbTintColor="white"
             step={1}
-            value={size}
             onValueChange={onValueChangeDebounced}
+            value={localSize}
           />
         </View>
       </View>
@@ -57,7 +66,7 @@ const styles = StyleSheet.create({
   centerContainer: {
     width: "100%",
     height: "25%",
-    marginTop: 120,
+    marginTop: 110,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",

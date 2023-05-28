@@ -8,15 +8,27 @@ import React, { useEffect, useState } from "react";
 import SliderBar from "../../../components/SliderBar";
 import BackIcon from "../../../components/BackIcon";
 
+// redux
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setSexe } from "../../../redux/actions";
+
 export default function SexeScreen({ navigation }) {
+
+  const { name} = useSelector((state) => state.user);
+
+
+  const dispatch = useDispatch();
+
   const [toggleButton, setToggleButton] = useState(0);
 
   useEffect(() => {
     setToggleButton(0);
   }, []);
 
-  const toggleStyleButton = (number) => {
+  const toggleStyleButton = (number, value) => {
     setToggleButton(number);
+    dispatch(setSexe(value))
   };
 
   return (
@@ -24,7 +36,7 @@ export default function SexeScreen({ navigation }) {
       <BackIcon path="Name" navigation={navigation} />
       <View style={styles.centerContainer}>
         <View>
-          <Text style={styles.questionText}>Bonjour Axel,</Text>
+          <Text style={styles.questionText}>Bonjour {name},</Text>
           <Text style={styles.questionText}>quel est votre sexe ?</Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -34,7 +46,7 @@ export default function SexeScreen({ navigation }) {
               styles.button,
               toggleButton === 1 && { backgroundColor: "red" },
             ])}
-            onPress={() => toggleStyleButton(1)}
+            onPress={() => toggleStyleButton(1, 'Homme')}
           >
             <Text style={styles.buttonText}>Homme</Text>
           </TouchableOpacity>
@@ -44,7 +56,7 @@ export default function SexeScreen({ navigation }) {
               styles.button,
               toggleButton === 2 && { backgroundColor: "red" },
             ])}
-            onPress={() => toggleStyleButton(2)}
+            onPress={() => toggleStyleButton(2, 'Femme')}
           >
             <Text style={styles.buttonText}>Femme</Text>
           </TouchableOpacity>
@@ -66,7 +78,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 120,
+    marginTop: 110,
     height: "45%",
   },
   questionText: {

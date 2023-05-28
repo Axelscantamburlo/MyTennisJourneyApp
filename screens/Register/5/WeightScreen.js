@@ -5,12 +5,19 @@ import SliderBar from "../../../components/SliderBar";
 import Slider from "@react-native-community/slider";
 import debounce from "lodash/debounce";
 
+import { useDispatch } from "react-redux";
+import { setWeight } from "../../../redux/actions";
+
 export default function WeightScreen({ navigation }) {
-  const [weight, setWeight] = useState(80);
+  const dispatch = useDispatch();
+
+  const [localWeight, setLocalWeight] = useState(80);
 
   const onValueChangeDebounced = debounce((newValue) => {
-    setWeight(newValue);
+    setLocalWeight(newValue);
+    dispatch(setWeight(newValue));
   }, 1);
+
   return (
     <View style={styles.container}>
       <BackIcon path="Size" navigation={navigation} />
@@ -24,7 +31,7 @@ export default function WeightScreen({ navigation }) {
               alignItems: "flex-end",
             }}
           >
-            <Text style={{ fontSize: 25 }}>{weight}</Text>
+            <Text style={{ fontSize: 25 }}>{localWeight}</Text>
             <Text style={{ fontSize: 13, marginBottom: 3, marginLeft: 5 }}>
               kg
             </Text>
@@ -37,12 +44,17 @@ export default function WeightScreen({ navigation }) {
             maximumTrackTintColor="orange"
             thumbTintColor="white"
             step={1}
-            value={weight}
+            value={localWeight}
             onValueChange={onValueChangeDebounced}
           />
         </View>
       </View>
-      <SliderBar slide={5} path="LevelPlayer" navigation={navigation} text='Suivant' />
+      <SliderBar
+        slide={5}
+        path="LevelPlayer"
+        navigation={navigation}
+        text="Suivant"
+      />
     </View>
   );
 }
@@ -56,7 +68,7 @@ const styles = StyleSheet.create({
   centerContainer: {
     width: "100%",
     height: "25%",
-    marginTop: 120,
+    marginTop: 110,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   centerContainer: {
-    marginTop: 120,
+    marginTop: 110,
     display: "flex",
     alignItems: "center",
     justifyContent: 'space-between',

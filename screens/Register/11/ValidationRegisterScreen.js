@@ -1,34 +1,110 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import BackIcon from "../../../components/BackIcon";
 import SliderBar from "../../../components/SliderBar";
+import Icon from "react-native-vector-icons/Feather";
+
+// ranking data to map
+
+import { RANKING_DATA } from "../../../data/rankingData";
+
+// redux
+import { useSelector } from 'react-redux';
+
 
 export default function ValidationRegisterScreen({ navigation }) {
 
+  const { name, sexe, age, size, weight, levelPlayeur, ranking, rankingGoal } = useSelector((state) => state.user);
+
+  const goals = [
+    { id: 1, goal: "Frapper plus fort dans la balle" },
+    { id: 2, goal: "Améliorer la poussée au service" },
+    { id: 3, goal: "Améliorer la poussée au service" },
+    { id: 4, goal: "Améliorer la poussée au service" },
+  ];
+
+  const [rankingToShow, setRankingToShow] = useState(RANKING_DATA[ranking - 1].label)
+  const [rankingGoalToShow, setRankingGoalToShow] = useState(RANKING_DATA[rankingGoal - 1].label)
   return (
     <View style={styles.container}>
       <BackIcon path="EmailPassword" navigation={navigation} />
-      <ScrollView style={styles.centerContainer}>
+      <View style={styles.centerContainer}>
         <View>
           <Text style={styles.questionText}>C'est parfait !</Text>
           <Text style={styles.questionText}>
             Voici un résumé de votre profil
           </Text>
         </View>
-        <View style={styles.rankingContainer}>
+        <View style={styles.rankingCard}>
           <View style={styles.textRankingContainer}>
             <View style={styles.ranking}>
-              <Text style={styles.rankingText}>Classement</Text>
-              <Text style={styles.rankingText}>30/1</Text>
+              <Text style={styles.title}>Classement</Text>
+              <Text style={styles.text}>{rankingToShow}</Text>
             </View>
             <View style={styles.rankingGoal}>
-              <Text style={styles.rankingText}>Objectif</Text>
-              <Text style={styles.rankingText}>15/3</Text>
+              <Text style={styles.title}>Objectif</Text>
+              <Text style={styles.text}>{rankingGoalToShow}</Text>
             </View>
           </View>
-    
+          <View
+            style={{
+              borderWidth: 2,
+              marginTop: 20,
+              paddingTop: 50,
+              paddingBottom: 50,
+            }}
+          >
+            <Text style={{ textAlign: "center" }}>Courbe à placer</Text>
+          </View>
         </View>
-      </ScrollView>
+        <View style={styles.goalsCard}>
+          <ScrollView
+            scrollEnabled={goals.length >= 3}
+            contentContainerStyle={styles.scrollViewContent}
+          >
+            {goals.map((goal) => {
+              return (
+                <View style={styles.goalContainer} key={goal.id}>
+                  <Text style={styles.goalText}>{goal.goal}</Text>
+                  <Icon
+                    name="square"
+                    style={{ marginRight: 10 }}
+                    size={23}
+                    color="black"
+                  />
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
+        <View style={styles.corpulenceCard}>
+          <View style={styles.corpulenceInfo}>
+            <View style={styles.item}>
+              <Text style={styles.title}>Taille</Text>
+              <Text style={styles.text}>175 cm</Text>
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.title}>Âge</Text>
+              <Text style={styles.text}>16 ans</Text>
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.title}>Poids</Text>
+              <Text style={styles.text}>65 kg</Text>
+            </View>
+          </View>
+          <View style={styles.graphicContainer}>
+            <View style={styles.circle}>
+              <Text>3019</Text>
+              <Text>kcal</Text>
+            </View>
+            <View style={styles.circle}>
+              <Text>3</Text>
+              <Text>L</Text>
+            </View>
+          </View>
+          <Text style={{fontSize: 11, textAlign: 'center',}}>Estimation de vos besoins calorique et hydrique journalier</Text>
+        </View>
+      </View>
       <SliderBar
         slide={11}
         path="Loader"
@@ -46,22 +122,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   centerContainer: {
-    marginTop: 120,
+    marginTop: 100,
     width: "85%",
-    maxHeight: "65%",
+    height: "70%",
   },
   questionText: {
     textAlign: "center",
     fontSize: 22,
   },
-  rankingContainer: {
-    height: "100%",
-    marginTop: 10,
+  // general text style
+  title: {
+    fontSize: 15,
+    textAlign: "center",
+    marginBottom: 3,
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 18,
+  },
+
+  // First Card (Ranking info)
+  rankingCard: {
+    marginTop: 15,
+    padding: 15,
+    backgroundColor: "#E4E4E4",
+    borderRadius: 10,
+    transform: [{ rotate: "-2deg" }],
   },
   textRankingContainer: {
     flexDirection: "row",
-    display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
   },
   ranking: {
@@ -75,6 +164,66 @@ const styles = StyleSheet.create({
   rankingText: {
     textAlign: "center",
     fontSize: 18,
-    color: "black",
   },
+
+  // Second card (goals info)
+  goalsCard: {
+    height: "20%",
+    borderRadius: 10,
+    transform: [{ rotate: "3deg" }, { translateY: -15 }],
+    backgroundColor: "#FFCE49",
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+  goalContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "90%",
+    marginTop: 5,
+    paddingBottom: 7,
+    width: "100%",
+  },
+  goalText: {
+    paddingLeft: 25,
+  },
+
+  // Third card (corpulence info)
+  corpulenceCard: {
+    // flex: 1,
+    backgroundColor: "#E4E4E4",
+    borderRadius: 10,
+    transform: [{ rotate: "-2deg" }, {translateY: -20}],
+    zIndex: -10,
+    flex: 1
+  },
+  corpulenceInfo: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+  },
+  item: {
+    width: "33%",
+  },
+  graphicContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flex: 0.90,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  circle: {
+    borderWidth: 5,
+    borderColor: 'skyblue',
+    width: 75,
+    height: 75,
+    borderRadius: 50,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
 });

@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
+import { Platform } from "react-native";
 
 export default function SliderBar({ slide, path, navigation, text }) {
   return (
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     position: "absolute",
-    bottom: 57,
+    bottom: Platform.OS == 'ios' ? 40 : 20,
     width: "100%",
   },
   sliderBar: {

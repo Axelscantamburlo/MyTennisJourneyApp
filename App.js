@@ -16,86 +16,91 @@ import GoalsScreen from "./screens/Register/9/GoalsScreen";
 import EmailPasswordScreen from "./screens/Register/10/EmailPasswordScreen";
 import ValidationRegisterScreen from "./screens/Register/11/ValidationRegisterScreen";
 
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Loader">
-        <Stack.Screen
-          name="Loader"
-          component={LoaderScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-          }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Name"
-          component={NameScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Sexe"
-          component={SexeScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Age"
-          component={AgeScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Size"
-          component={SizeScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Weight"
-          component={WeightScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="LevelPlayer"
-          component={LevelPlayerScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Ranking"
-          component={RankingScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="RankingGoal"
-          component={RankingGoalScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="Goals"
-          component={GoalsScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="EmailPassword"
-          component={EmailPasswordScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
-          name="ValidationRegister"
-          component={ValidationRegisterScreen}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Loader">
+          <Stack.Screen
+            name="Loader"
+            component={LoaderScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Welcome"
+            component={WelcomeScreen}
+            options={{
+              headerShown: false,
+              gestureEnabled: false,
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="Name"
+            component={NameScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="Sexe"
+            component={SexeScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="Age"
+            component={AgeScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="Size"
+            component={SizeScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="Weight"
+            component={WeightScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="LevelPlayer"
+            component={LevelPlayerScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="Ranking"
+            component={RankingScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="RankingGoal"
+            component={RankingGoalScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="Goals"
+            component={GoalsScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="EmailPassword"
+            component={EmailPasswordScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="ValidationRegister"
+            component={ValidationRegisterScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+     </Provider>
   );
 }
