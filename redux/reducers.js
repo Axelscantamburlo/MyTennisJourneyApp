@@ -7,7 +7,11 @@ import {
   SET_USER_LEVEL_PLAYEUR,
   SET_USER_RANKING,
   SET_USER_RANKING_GOAL,
+  SET_USER_GOALS,
+  SET_USER_EMAIL_PASSWORD
 } from "./actions";
+
+const randomNumber = Math.random();
 
 const initialState = {
   name: "",
@@ -17,7 +21,9 @@ const initialState = {
   weight: 80,
   levelPlayeur: "",
   ranking: 1,
-  rankingGoal: 1
+  rankingGoal: 1,
+  goals: [{id: randomNumber, goal: ''}],
+  emailPassword: {email: '', password: ''}
 };
 
 const userReducer = (state = initialState, action) => {
@@ -45,6 +51,12 @@ const userReducer = (state = initialState, action) => {
     }
     case SET_USER_RANKING_GOAL: {
       return { ...state, rankingGoal: action.payload };
+    }
+    case SET_USER_GOALS: {
+      return { ...state, goals: action.payload };
+    }
+    case SET_USER_EMAIL_PASSWORD: {
+      return { ...state, emailPassword: action.payload };
     }
     default:
       return state;

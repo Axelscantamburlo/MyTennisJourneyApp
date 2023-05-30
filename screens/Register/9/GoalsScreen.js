@@ -12,7 +12,18 @@ import SliderBar from "../../../components/SliderBar";
 import BackIcon from "../../../components/BackIcon";
 import Icon from "react-native-vector-icons/Feather";
 
+// redux
+
+import { useDispatch, useSelector } from "react-redux";
+import { setGoals } from "../../../redux/actions";
+
 export default function GoalsScreen({ navigation }) {
+  const dispatch = useDispatch();
+
+  const {goals} = useSelector((state) => state.user);
+
+
+  // manage state of keyboard to add a close keyboard button
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
@@ -38,23 +49,40 @@ export default function GoalsScreen({ navigation }) {
     };
   }, []);
 
-  const [textInputs, setTextInputs] = useState([""]);
+  //
+
+  const generateUniqueId = () => {
+    return Math.random().toString(36).substr(2, 9);
+  };
+  const [textInputs, setTextInputs] = useState([
+    { id: generateUniqueId(), goal: "" },
+  ]);
+
 
   const handleAddTextInput = () => {
-    setTextInputs([...textInputs, ""]);
+    const newTextInput = { id: generateUniqueId(), goal: "" };
+    setTextInputs([...textInputs, newTextInput]);
+    dispatch(setGoals(textInputs));
+
   };
 
-  const handleTextInputChange = (text, index) => {
-    const newInputs = [...textInputs];
-    newInputs[index] = text;
+  const handleTextInputChange = (text, id) => {
+    const newInputs = textInputs.map((input) => {
+      if (input.id === id) {
+        return { ...input, goal: text };
+      }
+      return input;
+    });
     setTextInputs(newInputs);
+    dispatch(setGoals(newInputs));
   };
 
-  const handleDeleteTextInput = (index) => {
-    const newInputs = [...textInputs];
-    newInputs.splice(index, 1);
+  const handleDeleteTextInput = (id) => {
+    const newInputs = textInputs.filter((input) => input.id !== id);
     setTextInputs(newInputs);
+    dispatch(setGoals(newInputs));
   };
+
 
   return (
     <View style={styles.container}>
@@ -76,16 +104,18 @@ export default function GoalsScreen({ navigation }) {
           {textInputs.map((textInput, index) => (
             <View style={styles.inputContainer} key={index}>
               <TextInput
-                value={textInput}
+                value={textInput.goal}
                 style={styles.textInput}
                 placeholder="Votre objectif"
-                onChangeText={(text) => handleTextInputChange(text, index)}
+                onChangeText={(text) =>
+                  handleTextInputChange(text, textInput.id)
+                }
               />
               {index !== 0 && (
                 <TouchableOpacity
                   activeOpacity={1}
                   style={styles.trashIcon}
-                  onPress={() => handleDeleteTextInput(index)}
+                  onPress={() => handleDeleteTextInput(textInput.id)}
                 >
                   <Icon name="trash" size={28} color="orange" />
                 </TouchableOpacity>
@@ -119,7 +149,12 @@ export default function GoalsScreen({ navigation }) {
           <Text style={{ color: "white", fontSize: 16 }}>Terminé</Text>
         </TouchableOpacity>
       )}
-      <SliderBar slide={9} path="EmailPassword" navigation={navigation} text='Suivant' />
+      <SliderBar
+        slide={9}
+        path="EmailPassword"
+        navigation={navigation}
+        text="Suivant"
+      />
     </View>
   );
 }
