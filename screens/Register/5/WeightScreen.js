@@ -1,22 +1,26 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BackIcon from "../../../components/BackIcon";
 import SliderBar from "../../../components/SliderBar";
 import Slider from "@react-native-community/slider";
 import debounce from "lodash/debounce";
 
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { setWeight } from "../../../redux/actions";
 
 export default function WeightScreen({ navigation }) {
-  const dispatch = useDispatch();
+
+  const { weight } = useSelector((state) => state.user);
 
   const [localWeight, setLocalWeight] = useState(80);
 
   const onValueChangeDebounced = debounce((newValue) => {
     setLocalWeight(newValue);
-    dispatch(setWeight(newValue));
   }, 1);
+
+  useEffect(() => {
+      setLocalWeight(weight)
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -44,8 +48,8 @@ export default function WeightScreen({ navigation }) {
             maximumTrackTintColor="orange"
             thumbTintColor="white"
             step={1}
-            value={localWeight}
             onValueChange={onValueChangeDebounced}
+            value={localWeight}
           />
         </View>
       </View>
@@ -54,6 +58,8 @@ export default function WeightScreen({ navigation }) {
         path="LevelPlayer"
         navigation={navigation}
         text="Suivant"
+        value={localWeight}
+        setValue={setWeight}
       />
     </View>
   );

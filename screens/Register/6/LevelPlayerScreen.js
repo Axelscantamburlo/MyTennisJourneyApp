@@ -4,46 +4,37 @@ import BackIcon from "../../../components/BackIcon";
 import SliderBar from "../../../components/SliderBar";
 
 // redux
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setLevelPlayeur } from "../../../redux/actions";
 
 export default function LevelPlayerScreen({ navigation }) {
 
-  const dispatch = useDispatch();
+  const { levelPlayeur } = useSelector((state) => state.user);
 
   const [toggleButton, setToggleButton] = useState(0);
 
   const [text, setText] = useState("");
 
-  useEffect(() => {
-    setToggleButton(0);
-    setText('')
-  }, []);
+  const [localLevel, setLocalLevel] = useState('')
 
-  const toggleStyleButton = (number, value) => {
-    setToggleButton(number);
-    dispatch(setLevelPlayeur(value)) 
-
-
-    if (number === 1) {
-      setText(
-        "Vous jouez de temps en temps et faites quelques matches dans l'année"
-      );
-    } else if (number === 2) {
-      setText(
-        "Vous prenez des cours en club et faites quelques tournois autour de chez vous"
-      );
-    } else if (number === 3) {
-      setText(
-        "Vous vous entrainez très régulièrement et joué souvent en tournois dans votre région"
-      );
-    } else if (number === 4) {
-      setText(
-        "Votre entrainement est quotidien et complet et faites des tournois partout en France voir même en dehors"
-      );
-    }
+  const levelTexts = {
+    Débutant: "Vous jouez de temps en temps et faites quelques matches dans l'année",
+    Intermédiaire: "Vous jouez de temps en temps et faites quelques matches dans l'année",
+    Confirmé: "Vous vous entraînez très régulièrement et jouez souvent en tournois dans votre région",
+    Expert: "Votre entraînement est quotidien et complet et vous faites des tournois partout en France, voire même à l'étranger"
   };
 
+  useEffect(() => {
+    setToggleButton(['Débutant', 'Intermédiaire', 'Confirmé', 'Expert'].indexOf(levelPlayeur) + 1);
+    setText(levelTexts[levelPlayeur]);
+  }, []);
+
+
+  const toggleStyleButton = (number, value) => {
+    setToggleButton(prevNumber => prevNumber === number ? 0 : number);
+    setLocalLevel(prevLevel => prevLevel === value ? '' : value);
+    setText(levelTexts[value]);
+  };
   return (
     <View style={styles.container}>
       <BackIcon path="Weight" navigation={navigation} />
@@ -79,9 +70,9 @@ export default function LevelPlayerScreen({ navigation }) {
               toggleButton === 3 && { backgroundColor: "red" },
             ])}
             activeOpacity={1}
-            onPress={() => toggleStyleButton(3, "Avancé")}
+            onPress={() => toggleStyleButton(3, "Confirmé")}
           >
-            <Text style={styles.buttonText}>Avancé</Text>
+            <Text style={styles.buttonText}>Confirmé</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={StyleSheet.flatten([
@@ -95,10 +86,10 @@ export default function LevelPlayerScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-        <View >
-          <Text style={styles.text}>{text}</Text>
-        </View>
-      <SliderBar slide={6} path="Ranking" navigation={navigation} text='Suivant' />
+      <View >
+        <Text style={styles.text}>{text}</Text>
+      </View>
+      <SliderBar slide={6} path="Ranking" navigation={navigation} text='Suivant' value={localLevel} setValue={setLevelPlayeur} />
     </View>
   );
 }

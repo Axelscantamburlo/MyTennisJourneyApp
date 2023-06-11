@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SliderBar from "../../../components/SliderBar";
 import BackIcon from "../../../components/BackIcon";
 import { Picker } from "@react-native-picker/picker";
@@ -9,18 +9,24 @@ import { Picker } from "@react-native-picker/picker";
 import { RANKING_DATA } from "../../../data/rankingData";
 
 //redux
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { setRankingGoal } from "../../../redux/actions";
 
 export default function RankingGoalScreen({ navigation }) {
-  const dispatch = useDispatch();
+
+  const {rankingGoal } = useSelector((state) => state.user);
+
 
   const [localRankingGoal, setLocalRankingGoal] = useState(1);
 
   const handleRankingChange = (value) => {
     setLocalRankingGoal(value);
-    dispatch(setRankingGoal(value));
   };
+
+  
+  useEffect(() => {
+    setLocalRankingGoal(rankingGoal)
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -53,6 +59,8 @@ export default function RankingGoalScreen({ navigation }) {
         path="Goals"
         navigation={navigation}
         text="Suivant"
+        value={localRankingGoal}
+        setValue={setRankingGoal}
       />
     </View>
   );

@@ -1,18 +1,24 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SliderBar from "../../../components/SliderBar";
 import BackIcon from "../../../components/BackIcon";
 
 
 // redux
 
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setName } from "../../../redux/actions";
 
 
 export default function NameScreen({ navigation }) {
 
-  const dispatch = useDispatch();
+  const { name } = useSelector((state) => state.user);
+
+  const [localName, setLocalName] = useState('')
+
+  useEffect(() => {
+    setLocalName(name)
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -22,10 +28,11 @@ export default function NameScreen({ navigation }) {
         <TextInput
           style={styles.textInput}
           placeholder="Prénom"
-          onChangeText={(value) => dispatch(setName(value))}
+          onChangeText={(value) => setLocalName(value)}
+          value={localName}
         />
       </View>
-      <SliderBar slide={1} path="Sexe" navigation={navigation} text="Suivant" />
+      <SliderBar slide={1} path="Sexe" navigation={navigation} text="Suivant" value={localName} setValue={setName} />
     </View>
   );
 }

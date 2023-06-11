@@ -6,7 +6,8 @@ export const SET_USER_WEIGHT = 'SET_USER_WEIGHT';
 export const SET_USER_LEVEL_PLAYEUR = 'SET_USER_LEVEL_PLAYEUR';
 export const SET_USER_RANKING = 'SET_USER_RANKING';
 export const SET_USER_RANKING_GOAL = 'SET_USER_RANKING_GOAL';
-export const SET_USER_GOALS = 'SET_USER_RANKING_GOAL';
+export const SET_USER_GOALS = 'SET_USER_GOALS';
+export const SET_USER_EMAIL_PASSWORD = 'SET_USER_EMAIL_PASSWORD';
 
 export const setName = name => dispatch => {
     dispatch({
@@ -56,5 +57,17 @@ export const setRankingGoal = rankingGoal => dispatch => {
     dispatch({
         type: SET_USER_RANKING_GOAL,
         payload: rankingGoal
+    })
+}
+export const setGoals = goals => dispatch => {
+    dispatch({
+        type: SET_USER_GOALS,
+        payload: goals
+    })
+}
+export const setEmailPassword = emailPassword => dispatch => {
+    dispatch({
+        type: SET_USER_EMAIL_PASSWORD,
+        payload: emailPassword
     })
 }

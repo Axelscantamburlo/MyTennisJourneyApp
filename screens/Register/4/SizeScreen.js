@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BackIcon from "../../../components/BackIcon";
 import SliderBar from "../../../components/SliderBar";
 import Slider from "@react-native-community/slider";
@@ -7,19 +7,22 @@ import debounce from 'lodash/debounce';
 
 // redux
 
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setSize } from "../../../redux/actions";
 
 export default function SizeScreen({ navigation }) {
 
-  const dispatch = useDispatch();
-
   const [localSize, setLocalSize] = useState(175);
+
+  const { size } = useSelector((state) => state.user);
 
   const onValueChangeDebounced = debounce((newValue) => {
     setLocalSize(newValue);
-    dispatch(setSize(newValue))
   }, 1);
+
+  useEffect(() => {
+      setLocalSize(size)
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -52,7 +55,7 @@ export default function SizeScreen({ navigation }) {
           />
         </View>
       </View>
-      <SliderBar slide={4} path={"Weight"} navigation={navigation} text='Suivant' />
+      <SliderBar slide={4} path={"Weight"} navigation={navigation} text='Suivant' value={localSize} setValue={setSize}/>
     </View>
   );
 }

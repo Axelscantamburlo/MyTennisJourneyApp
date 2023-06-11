@@ -4,7 +4,7 @@ import { TouchableOpacity, StyleSheet } from "react-native";
 
 export default function BackIcon({ path, navigation }) {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate(`${path}`)} activeOpacity={1}  style={styles.icon}>
+    <TouchableOpacity onPress={() => navigation.navigate(`${path}`)} activeOpacity={0.5}  style={styles.icon}>
       <Icon
         name="chevron-left"
         size={45}

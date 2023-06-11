@@ -14,14 +14,7 @@ import { useSelector } from 'react-redux';
 
 export default function ValidationRegisterScreen({ navigation }) {
 
-  const { name, sexe, age, size, weight, levelPlayeur, ranking, rankingGoal } = useSelector((state) => state.user);
-
-  const goals = [
-    { id: 1, goal: "Frapper plus fort dans la balle" },
-    { id: 2, goal: "Améliorer la poussée au service" },
-    { id: 3, goal: "Améliorer la poussée au service" },
-    { id: 4, goal: "Améliorer la poussée au service" },
-  ];
+  const { name, sexe, age, size, weight, levelPlayeur, ranking, goals, rankingGoal, emailPassword } = useSelector((state) => state.user);
 
   const [rankingToShow, setRankingToShow] = useState(RANKING_DATA[ranking - 1].label)
   const [rankingGoalToShow, setRankingGoalToShow] = useState(RANKING_DATA[rankingGoal - 1].label)
@@ -43,7 +36,7 @@ export default function ValidationRegisterScreen({ navigation }) {
             </View>
             <View style={styles.rankingGoal}>
               <Text style={styles.title}>Objectif</Text>
-              <Text style={styles.text}>{rankingGoalToShow}</Text>
+              <Text style={styles.text}>{rankingGoalToShow}</Text>  
             </View>
           </View>
           <View
@@ -62,19 +55,25 @@ export default function ValidationRegisterScreen({ navigation }) {
             scrollEnabled={goals.length >= 3}
             contentContainerStyle={styles.scrollViewContent}
           >
-            {goals.map((goal) => {
-              return (
-                <View style={styles.goalContainer} key={goal.id}>
-                  <Text style={styles.goalText}>{goal.goal}</Text>
-                  <Icon
-                    name="square"
-                    style={{ marginRight: 10 }}
-                    size={23}
-                    color="black"
-                  />
-                </View>
-              );
-            })}
+            {goals[0] !== "" ? (
+              <View>
+                {goals.map((goal) => {
+                  return (
+                    <View style={styles.goalContainer} key={goal.id}>
+                      <Text style={styles.goalText}>{goal}</Text>
+                      <Icon
+                        name="square"
+                        style={{ marginRight: 10 }}
+                        size={23}
+                        color="black"
+                      />
+                    </View>
+                  );
+                })}
+              </View>
+            ) : (
+              <Text>Pas d'objectifs pour l'instant</Text>
+            )}
           </ScrollView>
         </View>
         <View style={styles.corpulenceCard}>
@@ -102,7 +101,7 @@ export default function ValidationRegisterScreen({ navigation }) {
               <Text>L</Text>
             </View>
           </View>
-          <Text style={{fontSize: 11, textAlign: 'center',}}>Estimation de vos besoins calorique et hydrique journalier</Text>
+          <Text style={{ fontSize: 11, textAlign: 'center', }}>Estimation de vos besoins calorique et hydrique journalier</Text>
         </View>
       </View>
       <SliderBar
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     backgroundColor: "#E4E4E4",
     borderRadius: 10,
-    transform: [{ rotate: "-2deg" }, {translateY: -20}],
+    transform: [{ rotate: "-2deg" }, { translateY: -20 }],
     zIndex: -10,
     flex: 1
   },

@@ -8,27 +8,26 @@ import React, { useEffect, useState } from "react";
 import SliderBar from "../../../components/SliderBar";
 import BackIcon from "../../../components/BackIcon";
 
-// redux
+//redux
 
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { setSexe } from "../../../redux/actions";
 
 export default function SexeScreen({ navigation }) {
 
-  const { name} = useSelector((state) => state.user);
-
-
-  const dispatch = useDispatch();
-
+  const { name, sexe} = useSelector((state) => state.user);
+  
+  const [localSexe, setLocalSexe] = useState('')
+  
   const [toggleButton, setToggleButton] = useState(0);
 
   useEffect(() => {
-    setToggleButton(0);
+    setToggleButton(["Homme", 'Femme'].indexOf(sexe) + 1)
   }, []);
 
   const toggleStyleButton = (number, value) => {
     setToggleButton(number);
-    dispatch(setSexe(value))
+    setLocalSexe(value)
   };
 
   return (
@@ -62,7 +61,7 @@ export default function SexeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      <SliderBar slide={2} path="Age" navigation={navigation} text='Suivant' />
+      <SliderBar slide={2} path="Age" navigation={navigation} text='Suivant' value={localSexe} setValue={setSexe}/>
     </View>
   );
 }

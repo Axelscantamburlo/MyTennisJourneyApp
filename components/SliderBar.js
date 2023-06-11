@@ -2,7 +2,25 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Platform } from "react-native";
 
-export default function SliderBar({ slide, path, navigation, text }) {
+
+// redux
+
+import { useDispatch } from 'react-redux';
+
+export default function SliderBar({ slide, path, navigation, text, value, setValue }) {
+
+  const dispatch = useDispatch();
+
+  const handlePress = () => {
+    dispatch(setValue(value))
+    navigation.navigate(`${path}`)
+
+    if(Array.isArray(value)) {
+      const filterItem = value.filter(item => item !== "")
+      dispatch(setValue(filterItem))
+    }
+  }
+  console.log(value);
   return (
     <View style={styles.container}>
       <View style={styles.sliderBar}>
@@ -17,7 +35,7 @@ export default function SliderBar({ slide, path, navigation, text }) {
         <Text style={slide === 9 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
         <Text style={slide === 10 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
       </View>
-      <TouchableOpacity style={styles.button} activeOpacity={1} onPress={() => navigation.navigate(`${path}`)}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => handlePress()}>
         <Text style={{ fontSize: 20, color: "white" }}>{text}</Text>
       </TouchableOpacity>
     </View>
@@ -65,3 +83,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+
+
+
+
+
+// Revérifier tous le système mais normalement tout est géré
+//Maintenant ajouter les messages d'erreurs

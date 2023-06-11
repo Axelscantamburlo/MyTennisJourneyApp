@@ -12,9 +12,16 @@ import SliderBar from "../../../components/SliderBar";
 import BackIcon from "../../../components/BackIcon";
 import Icon from "react-native-vector-icons/Feather";
 
+//redux
+import { useSelector } from "react-redux";
+import { setGoals } from "../../../redux/actions";
+
 export default function GoalsScreen({ navigation }) {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  const [textInputs, setTextInputs] = useState([""]);
+  const {goals } = useSelector((state) => state.user);
 
   useEffect(() => {
     const keyboardWillShowListener = Keyboard.addListener(
@@ -32,13 +39,14 @@ export default function GoalsScreen({ navigation }) {
       }
     );
 
+    setTextInputs(goals)
+
     return () => {
       keyboardWillHideListener.remove();
       keyboardWillShowListener.remove();
     };
   }, []);
 
-  const [textInputs, setTextInputs] = useState([""]);
 
   const handleAddTextInput = () => {
     setTextInputs([...textInputs, ""]);
@@ -55,6 +63,8 @@ export default function GoalsScreen({ navigation }) {
     newInputs.splice(index, 1);
     setTextInputs(newInputs);
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -83,7 +93,7 @@ export default function GoalsScreen({ navigation }) {
               />
               {index !== 0 && (
                 <TouchableOpacity
-                  activeOpacity={1}
+                  activeOpacity={0.5}
                   style={styles.trashIcon}
                   onPress={() => handleDeleteTextInput(index)}
                 >
@@ -96,7 +106,7 @@ export default function GoalsScreen({ navigation }) {
           <TouchableOpacity
             style={styles.addButton}
             onPress={handleAddTextInput}
-            activeOpacity={1}
+            activeOpacity={0.5}
           >
             <Text style={{ color: "white", fontSize: 20 }}>+</Text>
           </TouchableOpacity>
@@ -113,13 +123,13 @@ export default function GoalsScreen({ navigation }) {
       {isKeyboardVisible && (
         <TouchableOpacity
           style={[styles.closeKeyboard, { bottom: keyboardHeight }]}
-          activeOpacity={1}
+          activeOpacity={0.5}
           onPress={() => Keyboard.dismiss()}
         >
           <Text style={{ color: "white", fontSize: 16 }}>Terminé</Text>
         </TouchableOpacity>
       )}
-      <SliderBar slide={9} path="EmailPassword" navigation={navigation} text='Suivant' />
+      <SliderBar slide={9} path="EmailPassword" navigation={navigation} text='Suivant' value={textInputs} setValue={setGoals} />
     </View>
   );
 }
@@ -168,8 +178,8 @@ const styles = StyleSheet.create({
 
   addButton: {
     backgroundColor: "#2D9BF0",
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
