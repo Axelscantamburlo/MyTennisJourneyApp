@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import BackIcon from "../../../components/BackIcon";
 import SliderBar from "../../../components/SliderBar";
 import { TextInput } from "react-native";
- 
+
+
 
 // // redux
 
@@ -52,23 +53,23 @@ const styles = StyleSheet.create({
     marginTop: 110,
     display: "flex",
     alignItems: "center",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     height: "35%",
-},
-questionText: {
+  },
+  questionText: {
     fontSize: 22,
-},
-inputContainer: {
-    width: '85%',
-    height: '60%',
-    display: 'flex',
-    justifyContent: 'space-between'
+  },
+  inputContainer: {
+    width: "85%",
+    height: "60%",
+    display: "flex",
+    justifyContent: "space-between",
   },
   textInput: {
     padding: 13,
     borderBottomWidth: 1,
     borderColor: "grey",
     borderRadius: 5,
-    fontSize: 17
+    fontSize: 17,
   },
 });

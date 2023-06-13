@@ -9,15 +9,20 @@ import Icon from "react-native-vector-icons/Feather";
 import { RANKING_DATA } from "../../../data/rankingData";
 
 // redux
-import { useSelector } from 'react-redux';
-
+import { useSelector } from "react-redux";
 
 export default function ValidationRegisterScreen({ navigation }) {
 
+
   const { name, sexe, age, size, weight, levelPlayeur, ranking, goals, rankingGoal, emailPassword } = useSelector((state) => state.user);
 
-  const [rankingToShow, setRankingToShow] = useState(RANKING_DATA[ranking - 1].label)
-  const [rankingGoalToShow, setRankingGoalToShow] = useState(RANKING_DATA[rankingGoal - 1].label)
+
+  const [rankingToShow, setRankingToShow] = useState(
+    RANKING_DATA[ranking - 1].label
+  );
+  const [rankingGoalToShow, setRankingGoalToShow] = useState(
+    RANKING_DATA[rankingGoal - 1].label
+  );
   return (
     <View style={styles.container}>
       <BackIcon path="EmailPassword" navigation={navigation} />
@@ -31,12 +36,14 @@ export default function ValidationRegisterScreen({ navigation }) {
         <View style={styles.rankingCard}>
           <View style={styles.textRankingContainer}>
             <View style={styles.ranking}>
-              <Text style={styles.title}>Classement</Text>
+              <Text style={styles.title}>{emailPassword.email}</Text>
               <Text style={styles.text}>{rankingToShow}</Text>
             </View>
             <View style={styles.rankingGoal}>
               <Text style={styles.title}>Objectif</Text>
               <Text style={styles.text}>{rankingGoalToShow}</Text>  
+              <Text style={styles.title}>{emailPassword.password}</Text>
+              <Text style={styles.text}>{rankingGoalToShow}</Text>
             </View>
           </View>
           <View
@@ -102,6 +109,9 @@ export default function ValidationRegisterScreen({ navigation }) {
             </View>
           </View>
           <Text style={{ fontSize: 11, textAlign: 'center', }}>Estimation de vos besoins calorique et hydrique journalier</Text>
+          <Text style={{ fontSize: 11, textAlign: "center" }}>
+            Estimation de vos besoins calorique et hydrique journalier
+          </Text>
         </View>
       </View>
       <SliderBar
@@ -197,7 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     transform: [{ rotate: "-2deg" }, { translateY: -20 }],
     zIndex: -10,
-    flex: 1
+    flex: 1,
   },
   corpulenceInfo: {
     flexDirection: "row",
@@ -208,21 +218,20 @@ const styles = StyleSheet.create({
     width: "33%",
   },
   graphicContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flex: 0.90,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    flex: 0.9,
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
   },
   circle: {
     borderWidth: 5,
-    borderColor: 'skyblue',
+    borderColor: "skyblue",
     width: 75,
     height: 75,
     borderRadius: 50,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
-
 });

@@ -11,6 +11,8 @@ import {
   SET_USER_EMAIL_PASSWORD
 } from "./actions";
 
+const randomNumber = Math.random();
+
 const initialState = {
   name: "",
   sexe: "",
