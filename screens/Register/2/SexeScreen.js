@@ -23,13 +23,14 @@ export default function SexeScreen({ navigation }) {
 
   useEffect(() => {
     setToggleButton(["Homme", 'Femme'].indexOf(sexe) + 1)
+    setLocalSexe(sexe)
   }, []);
 
   const toggleStyleButton = (number, value) => {
-    setToggleButton(number);
-    setLocalSexe(value)
+    setToggleButton(prevNumber => prevNumber === number ? 0 : number);
+    setLocalSexe(prevSexe => prevSexe === value ? '' : value)
   };
-
+  
   return (
     <View style={styles.container}>
       <BackIcon path="Name" navigation={navigation} />

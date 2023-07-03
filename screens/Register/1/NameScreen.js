@@ -30,6 +30,7 @@ export default function NameScreen({ navigation }) {
           placeholder="Prénom"
           onChangeText={(value) => setLocalName(value)}
           value={localName}
+          autoCorrect={false}
         />
       </View>
       <SliderBar slide={1} path="Sexe" navigation={navigation} text="Suivant" value={localName} setValue={setName} />

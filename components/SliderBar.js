@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Platform } from "react-native";
 
 
@@ -7,22 +7,98 @@ import { Platform } from "react-native";
 
 import { useDispatch } from 'react-redux';
 
-export default function SliderBar({ slide, path, navigation, text, value, setValue }) {
+// firebase
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from '../config/firebase_config'
+import {  setDoc, doc, collection } from "firebase/firestore";
 
+
+
+export default function SliderBar({ slide, path, navigation, text, value, setValue, store }) {
+  const [errorMessage, setErrorMessage] = useState('')
   const dispatch = useDispatch();
 
   const handlePress = () => {
-    dispatch(setValue(value))
-    navigation.navigate(`${path}`)
 
-    if(Array.isArray(value)) {
+    if (value !== "" && slide !== 10 && slide !== 11) {
+
+      dispatch(setValue(value))
+      navigation.navigate(`${path}`)
+      resetErrorMessage()
+    } else if (slide === 10) {
+      chekIfEmailAndPasswordAreGood()
+    } else if (slide === 11) {
+      registerUser()
+    }
+    else {
+      setErrorMessage('Veuillez indiquer votre niveau')
+    }
+
+    if (Array.isArray(value) && value.length !== 1) {
       const filterItem = value.filter(item => item !== "")
       dispatch(setValue(filterItem))
     }
   }
-  console.log(value);
+
+
+  const resetErrorMessage = () => {
+    setErrorMessage('')
+  }
+  // Check email and password
+  const chekIfEmailAndPasswordAreGood = () => {
+    const { email, password } = value
+
+    if (!email || !password) {
+      setErrorMessage("Veuillez compléter tous les champs")
+      return;
+    } else if (!isValidEmail(email)) {
+      setErrorMessage("Veuillez saisir un email valide")
+      return;
+    } else if (!isValidPassword(password)) {
+      setErrorMessage("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un caractères spécial")
+      return;
+    } else {
+      dispatch(setValue(value))
+      navigation.navigate(`${path}`)
+      resetErrorMessage()
+    }
+  }
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email)
+  }
+  const isValidPassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.,?])[a-zA-Z\d!@#$%^&*.,?]{8,16}$/;
+
+    return passwordRegex.test(password)
+  }
+
+  ////////////////////
+  // take all the redux store
+
+  const registerUser = async () => {
+    const { email, password } = store.emailPassword
+
+try {
+      const {user} = await createUserWithEmailAndPassword(auth, email, password)
+      const userId = user.uid
+      const useRef = doc(db, 'users', userId);
+
+      await setDoc(useRef, {
+        ...store
+      })
+    } catch (err) {
+      if (err.code === "auth/email-already-in-use") {
+        navigation.navigate("EmailPassword", { message: 'Email déjà utilisé' })
+      }
+    }
+
+  }
+
   return (
     <View style={styles.container}>
+      <Text style={{ color: 'red', marginBottom: 5, fontSize: 15 }}>{errorMessage}</Text>
       <View style={styles.sliderBar}>
         <Text style={slide === 1 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
         <Text style={slide === 2 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
@@ -88,5 +164,4 @@ const styles = StyleSheet.create({
 
 
 
-// Revérifier tous le système mais normalement tout est géré
-//Maintenant ajouter les messages d'erreurs
+// AJOUTER LA FONCTION QUI GERE LA VALIDITE DE L EMAIL ET DU MDP

@@ -15,10 +15,9 @@ import { setRankingGoal } from "../../../redux/actions";
 export default function RankingGoalScreen({ navigation }) {
 
   const {rankingGoal } = useSelector((state) => state.user);
-
-
+  
   const [localRankingGoal, setLocalRankingGoal] = useState(1);
-
+  
   const handleRankingChange = (value) => {
     setLocalRankingGoal(value);
   };

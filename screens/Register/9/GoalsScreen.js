@@ -27,8 +27,7 @@ export default function GoalsScreen({ navigation }) {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
-  const [textInputs, setTextInputs] = useState([""]);
-
+  
   useEffect(() => {
     const keyboardWillShowListener = Keyboard.addListener(
       "keyboardWillShow",
@@ -45,7 +44,7 @@ export default function GoalsScreen({ navigation }) {
       }
     );
 
-    setTextInputs(goals)
+      setTextInputs(goals)
 
     return () => {
       keyboardWillHideListener.remove();
@@ -53,29 +52,21 @@ export default function GoalsScreen({ navigation }) {
     };
   }, []);
 
+  const [textInputs, setTextInputs] = useState([""]);
 
   const handleAddTextInput = () => {
-    const newTextInput = { id: generateUniqueId(), goal: "" };
-    setTextInputs([...textInputs, newTextInput]);
-    dispatch(setGoals(textInputs));
-
+    setTextInputs([...textInputs, ""]);
   };
-
-  const handleTextInputChange = (text, id) => {
-    const newInputs = textInputs.map((input) => {
-      if (input.id === id) {
-        return { ...input, goal: text };
-      }
-      return input;
-    });
+  
+  const handleTextInputChange = (text, index) => {
+    const newInputs = [...textInputs];
+    newInputs[index] = text;
     setTextInputs(newInputs);
-    dispatch(setGoals(newInputs));
   };
-
-  const handleDeleteTextInput = (id) => {
-    const newInputs = textInputs.filter((input) => input.id !== id);
+  const handleDeleteTextInput = (index) => {
+    const newInputs = [...textInputs];
+    newInputs.splice(index, 1);
     setTextInputs(newInputs);
-    dispatch(setGoals(newInputs));
   };
 
 
@@ -99,18 +90,17 @@ export default function GoalsScreen({ navigation }) {
           {textInputs.map((textInput, index) => (
             <View style={styles.inputContainer} key={index}>
               <TextInput
-                value={textInput.goal}
+                value={textInput}
                 style={styles.textInput}
                 placeholder="Votre objectif"
-                onChangeText={(text) =>
-                  handleTextInputChange(text, textInput.id)
-                }
+                onChangeText={(text) => handleTextInputChange(text, index)}
+                autoCorrect={false}
               />
               {index !== 0 && (
                 <TouchableOpacity
                   activeOpacity={0.5}
                   style={styles.trashIcon}
-                  onPress={() => handleDeleteTextInput(textInput.id)}
+                  onPress={() => handleDeleteTextInput(index)}
                 >
                   <Icon name="trash" size={28} color="orange" />
                 </TouchableOpacity>
@@ -145,13 +135,7 @@ export default function GoalsScreen({ navigation }) {
         </TouchableOpacity>
       )}
 
-      <SliderBar slide={9} path="EmailPassword" navigation={navigation} text='Suivant' value={textInputs} setValue={setGoals} />
-      <SliderBar
-        slide={9}
-        path="EmailPassword"
-        navigation={navigation}
-        text="Suivant"
-      />
+<SliderBar slide={9} path="EmailPassword" navigation={navigation} text='Suivant' value={textInputs} setValue={setGoals} />    
     </View>
   );
 }

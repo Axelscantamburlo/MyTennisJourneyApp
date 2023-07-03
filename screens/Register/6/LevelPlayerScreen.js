@@ -19,7 +19,7 @@ export default function LevelPlayerScreen({ navigation }) {
 
   const levelTexts = {
     Débutant: "Vous jouez de temps en temps et faites quelques matches dans l'année",
-    Intermédiaire: "Vous jouez de temps en temps et faites quelques matches dans l'année",
+    Intermédiaire: "Vous prenez des cours en club et faites quelques tournois autour de chez vous",
     Confirmé: "Vous vous entraînez très régulièrement et jouez souvent en tournois dans votre région",
     Expert: "Votre entraînement est quotidien et complet et vous faites des tournois partout en France, voire même à l'étranger"
   };
@@ -27,13 +27,14 @@ export default function LevelPlayerScreen({ navigation }) {
   useEffect(() => {
     setToggleButton(['Débutant', 'Intermédiaire', 'Confirmé', 'Expert'].indexOf(levelPlayeur) + 1);
     setText(levelTexts[levelPlayeur]);
+    setLocalLevel(levelPlayeur)
   }, []);
 
 
   const toggleStyleButton = (number, value) => {
     setToggleButton(prevNumber => prevNumber === number ? 0 : number);
     setLocalLevel(prevLevel => prevLevel === value ? '' : value);
-    setText(levelTexts[value]);
+    setText(prevText => prevText === levelTexts[value] ? '' : levelTexts[value]);
   };
   return (
     <View style={styles.container}>

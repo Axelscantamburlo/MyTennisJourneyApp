@@ -10,12 +10,14 @@ import { RANKING_DATA } from "../../../data/rankingData";
 
 // redux
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function ValidationRegisterScreen({ navigation }) {
 
+  const allData = useSelector((state) => state.user)
 
-  const { name, sexe, age, size, weight, levelPlayeur, ranking, goals, rankingGoal, emailPassword } = useSelector((state) => state.user);
-
+  const { sexe, age, size, weight, levelPlayeur, ranking, rankingGoal, goals, emailPassword } = allData
+  
 
   const [rankingToShow, setRankingToShow] = useState(
     RANKING_DATA[ranking - 1].label
@@ -23,6 +25,53 @@ export default function ValidationRegisterScreen({ navigation }) {
   const [rankingGoalToShow, setRankingGoalToShow] = useState(
     RANKING_DATA[rankingGoal - 1].label
   );
+
+
+
+  const [healthData, setHealthData] = useState({
+    calories: 0,
+    water: 0
+  })
+  useEffect(() => {
+    calculateHealthData()
+  }, [])
+
+  const healthmultiplicator = {
+    cal: {
+      "Débutant": 1.375,
+    'Intermédiaire': 1.55,
+    "Confirmé": 1.725,
+    "Expert": 1.9
+    },
+    wat: {
+      "Débutant": 30,
+      'Intermédiaire': 40,
+      "Confirmé": 50,
+      "Expert": 60
+    }
+
+  }
+
+  const calculateHealthData = () => {
+    if(sexe === 'Homme') {
+      const cal = Math.round(((13.7516 * weight) + (5 * size) - (6.7550 * age) + 66.473) * healthmultiplicator.cal[levelPlayeur])
+      const wat = (weight * healthmultiplicator.wat[levelPlayeur] / 100)
+      setHealthData({
+        calories: cal,
+        water: wat
+      })
+    } else if(sexe === 'Femme') {
+      const cal = Math.round(((9.5634 * weight) + (1.85 * size) - (4.6576 * age) + 655.0955) * healthmultiplicator.cal[levelPlayeur])
+      const wat = (weight * healthmultiplicator.wat[levelPlayeur] / 1000)
+      setHealthData({
+        calories: cal,
+        water: wat
+      })
+   
+    }
+  }
+
+
   return (
     <View style={styles.container}>
       <BackIcon path="EmailPassword" navigation={navigation} />
@@ -36,14 +85,12 @@ export default function ValidationRegisterScreen({ navigation }) {
         <View style={styles.rankingCard}>
           <View style={styles.textRankingContainer}>
             <View style={styles.ranking}>
-              <Text style={styles.title}>{emailPassword.email}</Text>
+              <Text style={styles.title}>Classement</Text>
               <Text style={styles.text}>{rankingToShow}</Text>
             </View>
             <View style={styles.rankingGoal}>
               <Text style={styles.title}>Objectif</Text>
               <Text style={styles.text}>{rankingGoalToShow}</Text>  
-              <Text style={styles.title}>{emailPassword.password}</Text>
-              <Text style={styles.text}>{rankingGoalToShow}</Text>
             </View>
           </View>
           <View
@@ -64,9 +111,9 @@ export default function ValidationRegisterScreen({ navigation }) {
           >
             {goals[0] !== "" ? (
               <View>
-                {goals.map((goal) => {
+                {goals.map((goal, index) => {
                   return (
-                    <View style={styles.goalContainer} key={goal.id}>
+                    <View style={styles.goalContainer} key={index}>
                       <Text style={styles.goalText}>{goal}</Text>
                       <Icon
                         name="square"
@@ -79,7 +126,7 @@ export default function ValidationRegisterScreen({ navigation }) {
                 })}
               </View>
             ) : (
-              <Text>Pas d'objectifs pour l'instant</Text>
+              <Text style={{textAlign: 'center', fontSize: 16}}>Pas d'objectifs pour l'instant</Text>
             )}
           </ScrollView>
         </View>
@@ -87,38 +134,37 @@ export default function ValidationRegisterScreen({ navigation }) {
           <View style={styles.corpulenceInfo}>
             <View style={styles.item}>
               <Text style={styles.title}>Taille</Text>
-              <Text style={styles.text}>175 cm</Text>
+              <Text style={styles.text}>{size} cm</Text>
             </View>
             <View style={styles.item}>
               <Text style={styles.title}>Âge</Text>
-              <Text style={styles.text}>16 ans</Text>
+              <Text style={styles.text}>{age} ans</Text>
             </View>
             <View style={styles.item}>
               <Text style={styles.title}>Poids</Text>
-              <Text style={styles.text}>65 kg</Text>
+              <Text style={styles.text}>{weight} kg</Text>
             </View>
           </View>
           <View style={styles.graphicContainer}>
             <View style={styles.circle}>
-              <Text>3019</Text>
+              <Text>{healthData.calories}</Text>
               <Text>kcal</Text>
             </View>
             <View style={styles.circle}>
-              <Text>3</Text>
+              <Text>{healthData.water}</Text>
               <Text>L</Text>
             </View>
           </View>
           <Text style={{ fontSize: 11, textAlign: 'center', }}>Estimation de vos besoins calorique et hydrique journalier</Text>
-          <Text style={{ fontSize: 11, textAlign: "center" }}>
-            Estimation de vos besoins calorique et hydrique journalier
-          </Text>
+     
         </View>
       </View>
       <SliderBar
         slide={11}
-        path="Loader"
+        path="Goals"
         navigation={navigation}
         text="Valider l'inscription"
+        store={allData}
       />
     </View>
   );
@@ -205,7 +251,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     backgroundColor: "#E4E4E4",
     borderRadius: 10,
-    transform: [{ rotate: "-2deg" }, { translateY: -20 }],
+    transform: [{ rotate: "-1.5deg" }, { translateY: -20 }],
     zIndex: -10,
     flex: 1,
   },

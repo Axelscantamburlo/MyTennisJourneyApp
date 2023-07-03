@@ -1,4 +1,3 @@
-
 {
   "name": "mytennisjourney",
   "version": "1.0.0",
@@ -17,6 +16,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "expo": "~48.0.11",
     "expo-status-bar": "~1.4.4",
+    "firebase": "^9.23.0",
     "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-dom": "^18.2.0",

@@ -8,10 +8,10 @@ import { TextInput } from "react-native";
 
 // // redux
 
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setEmailPassword } from "../../../redux/actions";
 
-export default function EmailPasswordScreen({ navigation }) {
+export default function EmailPasswordScreen({ navigation, route }) {
 
   const { emailPassword } = useSelector((state) => state.user);
 
@@ -21,13 +21,18 @@ export default function EmailPasswordScreen({ navigation }) {
   })
 
   const handleInputsChange = (inputChange, text) => {
-    setLocalEmailPassword({...localEmailPassword, [inputChange]: text})
+    setLocalEmailPassword({ ...localEmailPassword, [inputChange]: text })
   }
 
-  
+  const [errorMessage, setErrorMessage] = useState('')
+
+
   useEffect(() => {
-    setLocalEmailPassword(emailPassword)
-  }, [])
+    setLocalEmailPassword(emailPassword);
+    if (route.params && route.params.message) {
+      setErrorMessage(route.params.message);
+    }
+  }, [emailPassword, route.params]);
 
 
   return (
@@ -36,10 +41,11 @@ export default function EmailPasswordScreen({ navigation }) {
       <View style={styles.centerContainer}>
         <Text style={styles.questionText}>On y est presque !</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.textInput} placeholder="Email" name='email' value={localEmailPassword.email} onChangeText={(text) => handleInputsChange('email', text)} />
-          <TextInput style={styles.textInput} placeholder="Mot de passe" value={localEmailPassword.password} onChangeText={(text) => handleInputsChange('password', text)}/>
+          <TextInput style={styles.textInput} autoCorrect={false} placeholder="Email" name='email' value={localEmailPassword.email} onChangeText={(text) => handleInputsChange('email', text)} />
+          <TextInput style={styles.textInput} autoCorrect={false} placeholder="Mot de passe" value={localEmailPassword.password} onChangeText={(text) => handleInputsChange('password', text)} />
         </View>
       </View>
+      <Text style={styles.errorMessage}>{errorMessage}</Text>
       <SliderBar slide={10} path="ValidationRegister" navigation={navigation} text='Suivant' value={localEmailPassword} setValue={setEmailPassword} />
     </View>
   );
@@ -72,4 +78,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 17,
   },
+  errorMessage: {
+    position: 'absolute',
+    bottom: 150,
+    width: "100%",
+    textAlign: 'center',
+    fontSize: 15,
+    color: 'red'
+  }
 });
