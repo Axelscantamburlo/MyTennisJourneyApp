@@ -55,7 +55,7 @@ export default function ValidationRegisterScreen({ navigation }) {
   const calculateHealthData = () => {
     if(sexe === 'Homme') {
       const cal = Math.round(((13.7516 * weight) + (5 * size) - (6.7550 * age) + 66.473) * healthmultiplicator.cal[levelPlayeur])
-      const wat = (weight * healthmultiplicator.wat[levelPlayeur] / 100)
+      const wat = (weight * healthmultiplicator.wat[levelPlayeur] / 1000)
       setHealthData({
         calories: cal,
         water: wat
@@ -161,7 +161,7 @@ export default function ValidationRegisterScreen({ navigation }) {
       </View>
       <SliderBar
         slide={11}
-        path="Goals"
+        path="ValidationLoader"
         navigation={navigation}
         text="Valider l'inscription"
         store={allData}

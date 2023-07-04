@@ -20,8 +20,8 @@ export default function EmailPasswordScreen({ navigation, route }) {
     password: ''
   })
 
-  const handleInputsChange = (inputChange, text) => {
-    setLocalEmailPassword({ ...localEmailPassword, [inputChange]: text })
+  const handleInputsChange = (inputToChange, text) => {
+    setLocalEmailPassword({ ...localEmailPassword, [inputToChange]: text })
   }
 
   const [errorMessage, setErrorMessage] = useState('')

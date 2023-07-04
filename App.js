@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+
+//SCREENS
 import LoaderScreen from "./screens/LoaderScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import NameScreen from "./screens/Register/1/NameScreen";
@@ -15,9 +17,13 @@ import RankingGoalScreen from "./screens/Register/8/RankingGoalScreen";
 import GoalsScreen from "./screens/Register/9/GoalsScreen";
 import EmailPasswordScreen from "./screens/Register/10/EmailPasswordScreen";
 import ValidationRegisterScreen from "./screens/Register/11/ValidationRegisterScreen";
+import ValidationLoader from "./screens/Register/12/ValidationLoader";
+import HomePageScreen from "./screens/HomePage/HomePageScreen";
 
+//REDUX
 import { Provider } from "react-redux";
 import store from "./redux/store";
+
 
 const Stack = createStackNavigator();
 
@@ -99,8 +105,21 @@ export default function App() {
             component={ValidationRegisterScreen}
             options={{ headerShown: false, gestureEnabled: false }}
           />
+          <Stack.Screen
+            name="ValidationLoader"
+            component={ValidationLoader}
+            options={{ headerShown: false}}
+          />
+
+          {/* HOME PAGE */}
+          <Stack.Screen 
+            name="HomePage"
+            component={HomePageScreen}
+            options={{ headerShown: false }}
+
+          />
         </Stack.Navigator>
       </NavigationContainer>
-     </Provider>
+    </Provider>
   );
 }
