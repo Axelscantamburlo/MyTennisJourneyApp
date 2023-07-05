@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 // firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from '../config/firebase_config'
-import {  setDoc, doc, collection } from "firebase/firestore";
+import { setDoc, doc, collection } from "firebase/firestore";
 
 
 
@@ -23,7 +23,7 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
     if (value !== "" && slide !== 10 && slide !== 11) {
 
       dispatch(setValue(value))
-    navigation.navigate(`${path}`)
+      navigation.navigate(`${path}`)
       resetErrorMessage()
     } else if (slide === 10) {
       chekIfEmailAndPasswordAreGood()
@@ -58,7 +58,7 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
       return;
     } else {
       dispatch(setValue(value))
-    navigation.navigate(`${path}`)
+      navigation.navigate(`${path}`)
       resetErrorMessage()
     }
   }
@@ -78,19 +78,20 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
 
   const registerUser = async () => {
     const { email, password } = store.emailPassword
-try {
-      const {user} = await createUserWithEmailAndPassword(auth, email, password)
+    try {
+      const { user } = await createUserWithEmailAndPassword(auth, email, password)
       const userId = user.uid
       const useRef = doc(db, 'users', userId);
 
       await setDoc(useRef, {
         ...store
       })
-      navigation.navigate(`${path}`, {text: 'Votre inscription a bien été validée'})
+      navigation.navigate(`${path}`, { text: 'Votre inscription a bien été validée' })
+
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
         navigation.navigate("EmailPassword", { message: 'Email déjà utilisé' })
-      } else if (err.code === "auth/invalid-email"){
+      } else if (err.code === "auth/invalid-email") {
         navigation.navigate("EmailPassword", { message: 'Veuillez saisir un email valide' })
 
       } else {
@@ -99,6 +100,7 @@ try {
     }
 
   }
+
 
   return (
     <View style={styles.container}>

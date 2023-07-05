@@ -23,6 +23,7 @@ import HomePageScreen from "./screens/HomePage/HomePageScreen";
 //REDUX
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import PasswordResetScreen from "./screens/Login/PasswordResetScreen";
 
 
 const Stack = createStackNavigator();
@@ -45,11 +46,7 @@ export default function App() {
               gestureEnabled: false,
             }}
           />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
+          {/* REGISTER */}
           <Stack.Screen
             name="Name"
             component={NameScreen}
@@ -108,11 +105,24 @@ export default function App() {
           <Stack.Screen
             name="ValidationLoader"
             component={ValidationLoader}
-            options={{ headerShown: false}}
+            options={{ headerShown: false }}
+          />
+
+          {/* LOGIN */}
+
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="PasswordReset"
+            component={PasswordResetScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
           />
 
           {/* HOME PAGE */}
-          <Stack.Screen 
+          <Stack.Screen
             name="HomePage"
             component={HomePageScreen}
             options={{ headerShown: false }}

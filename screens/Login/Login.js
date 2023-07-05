@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, TouchableHighlight } from 'react-native'
 import React from 'react'
 import BackIcon from '../../components/BackIcon'
 import { useState } from 'react'
@@ -60,6 +60,9 @@ export default function Login({ navigation }) {
         </View>
       </View>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
+      <TouchableHighlight style={styles.forgotPassword} underlayColor='transparent' activeOpacity={0.3} onPress={() => navigation.navigate("PasswordReset")}>
+        <Text style={{color: "#6184D8", fontSize: 16}}>Mot de passe oublié</Text>
+      </TouchableHighlight>
       <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => handlePress()}>
         <Text style={{ fontSize: 20, color: "white" }}>Se connecter</Text>
       </TouchableOpacity>
@@ -108,10 +111,16 @@ const styles = StyleSheet.create({
     bottom: Platform.OS == 'ios' ? 40 : 20,
   },
   errorMessage: {
-    color: 'red', 
-    marginBottom: 5, 
+    color: 'red',
+    marginBottom: 5,
     fontSize: 15,
     position: 'absolute',
+    bottom: Platform.OS == 'ios' ? 130 : 110,
+  },
+  forgotPassword: {
+
+    position: "absolute",
     bottom: Platform.OS == 'ios' ? 110 : 90,
+
   }
 })
