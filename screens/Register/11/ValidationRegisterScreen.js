@@ -16,7 +16,7 @@ export default function ValidationRegisterScreen({ navigation }) {
 
   const allData = useSelector((state) => state.user)
 
-  const { sexe, age, size, weight, levelPlayeur, ranking, rankingGoal, goals, emailPassword } = allData
+  const { sexe, age, size, weight, levelPlayeur, ranking, rankingGoal, goals } = allData
   
 
   const [rankingToShow, setRankingToShow] = useState(

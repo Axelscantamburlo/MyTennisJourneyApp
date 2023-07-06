@@ -32,21 +32,20 @@ export default function Login({ navigation }) {
         navigation.navigate("ValidationLoader", { text: 'Connexion validée' })
       })
       .catch((error) => {
-        showErrorMessage(error)
+        showErrorMessage(error.code)
       });
   }
 
   const [errorMessage, setErrorMessage] = useState('')
 
   const showErrorMessage = (error) => {
-    if (error.code === 'auth/invalid-email') {
+    if (error === 'auth/invalid-email') {
       setErrorMessage('Email invalide')
-    } else if (error.code === 'auth/wrong-password') {
+    } else if (error === 'auth/wrong-password') {
       setErrorMessage('Mot de passe invalide')
     } else {
-      setErrorMessage("Une erreur s'est produite")
+      setErrorMessage(`${error.code}`)
     }
-    console.log(error.code);
   }
 
   return (
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   centerContainer: {
-    marginTop: 110,
+    marginTop: 130,
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -124,3 +123,8 @@ const styles = StyleSheet.create({
 
   }
 })
+
+
+// VERIFIER QUE TOUT MARCHE: REGISTER AVEC LE  PASSWORD QUI SE CACHE DANS REDUX ET DANS FIREBASE (REFLECHIR SI ON AURA JAMAIS BESOIN DU MOT DE PASSE)
+// VERIFIER LA PARTIE LOGIN AVEC LES MESSAGES D ERREUR AINSI QUE LE PasswordRestScreen.js
+//MESSAGE D ERREUR A VERIFIER SUR EmailPAsswordScreen.js CAR LORSQUE ON ARRIVE DE ValidationRegisterScreen L ERREUR S AFFICHE BIEN MAIS NE S ENLEVE PAS EN CAS D AUTRE ERREUR

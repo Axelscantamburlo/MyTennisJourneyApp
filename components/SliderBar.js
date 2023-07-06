@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from '../config/firebase_config'
 import { setDoc, doc, collection } from "firebase/firestore";
+import { setEmailPassword } from "../redux/actions";
 
 
 
@@ -84,8 +85,15 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
       const useRef = doc(db, 'users', userId);
 
       await setDoc(useRef, {
-        ...store
+        ...store,
+        emailPassword: {
+          email,
+          password: '*********'
+        }
+        
       })
+      dispatch(setEmailPassword({email: email, password: '*******'}))
+  
       navigation.navigate(`${path}`, { text: 'Votre inscription a bien été validée' })
 
     } catch (err) {
@@ -97,8 +105,8 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
       } else {
         navigation.navigate("EmailPassword", { message: "Une ereur s'est produite" })
       }
+      console.log(err.code);
     }
-
   }
 
 
