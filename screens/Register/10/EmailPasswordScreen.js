@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import BackIcon from "../../../components/BackIcon";
 import SliderBar from "../../../components/SliderBar";
 import { TextInput } from "react-native";
-
-
+import Icon from 'react-native-vector-icons/Feather'
 
 // // redux
 
@@ -20,6 +19,8 @@ export default function EmailPasswordScreen({ navigation, route }) {
     password: ''
   })
 
+  const {email, password} = localEmailPassword
+
   const handleInputsChange = (inputToChange, text) => {
     setLocalEmailPassword({ ...localEmailPassword, [inputToChange]: text })
   }
@@ -29,10 +30,21 @@ export default function EmailPasswordScreen({ navigation, route }) {
 
   useEffect(() => {
     setLocalEmailPassword(emailPassword);
+
+  }, [emailPassword]);
+
+  useEffect(() => {
     if (route.params && route.params.message) {
       setErrorMessage(route.params.message);
     }
-  }, [emailPassword, route.params]);
+  }, [route.params])
+
+  useEffect(() => {
+    setErrorMessage('')
+  }, [localEmailPassword])
+
+
+  const [hidePassword, setHidePassword] = useState(true)
 
 
   return (
@@ -41,8 +53,19 @@ export default function EmailPasswordScreen({ navigation, route }) {
       <View style={styles.centerContainer}>
         <Text style={styles.questionText}>On y est presque !</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.textInput} autoCorrect={false} placeholder="Email" name='email' value={localEmailPassword.email} onChangeText={(text) => handleInputsChange('email', text)} />
-          <TextInput style={styles.textInput} autoCorrect={false} placeholder="Mot de passe" value={localEmailPassword.password} onChangeText={(text) => handleInputsChange('password', text)} />
+          <TextInput autoCapitalize='none' style={styles.textInput} autoCorrect={false} placeholder="Email" name='email' value={email} onChangeText={(text) => handleInputsChange('email', text)} />
+
+          <View style={{
+            flexDirection: 'row', borderBottomWidth: 1, justifyContent: 'space-between'
+          }}>
+            <TextInput style={[styles.textInput, { width: "90%", borderBottomWidth: 0 }]} secureTextEntry={hidePassword ? true : false}  autoCorrect={false} placeholder="Mot de passe" value={localEmailPassword.password} onChangeText={(text) => handleInputsChange('password', text)} />
+
+            {password && (
+              <TouchableOpacity activeOpacity={0.5} style={styles.lockBtn} onPress={() => setHidePassword(!hidePassword)}>
+                <Icon color='grey' size={22} name={hidePassword ? 'lock' : 'unlock'} />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -85,5 +108,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     color: 'red'
+  },
+  lockBtn: {
+    display: 'flex',
+    justifyContent: 'center',
+    zIndex: 10,
+    transform: [{ translateX: -15 }]
   }
 });

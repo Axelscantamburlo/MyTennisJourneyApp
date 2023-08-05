@@ -11,13 +11,19 @@ import { useDispatch } from 'react-redux';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from '../config/firebase_config'
 import { setDoc, doc, collection } from "firebase/firestore";
-import { setEmailPassword } from "../redux/actions";
+import { setEmailPassword, setIsLoggedIn } from "../redux/actions";
 
 
 
 export default function SliderBar({ slide, path, navigation, text, value, setValue, store }) {
   const [errorMessage, setErrorMessage] = useState('')
   const dispatch = useDispatch();
+
+  const message = {
+    1: "Veuillez entrer votre prénom",
+    2: "Veuillez sélectionner votre sexe",
+    6: 'Veuillez sélectionner votre niveau'
+  }
 
   const handlePress = () => {
 
@@ -32,7 +38,7 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
       registerUser()
     }
     else {
-      setErrorMessage('Veuillez indiquer votre niveau')
+      setErrorMessage(message[slide])
     }
 
     if (Array.isArray(value) && value.length !== 1) {
@@ -55,7 +61,7 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
       setErrorMessage("Veuillez saisir un email valide")
       return;
     } else if (!isValidPassword(password)) {
-      setErrorMessage("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un caractères spécial")
+      setErrorMessage("Le mot de passe doit comprendre entre 8 et 16 caractères, une majuscule, une minuscule et un caractères spécial")
       return;
     } else {
       dispatch(setValue(value))
@@ -89,12 +95,14 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
         emailPassword: {
           email,
           password: '*********'
-        }
-        
+        },
+        isLoggedIn: true
+
       })
-      dispatch(setEmailPassword({email: email, password: '*******'}))
-  
-      navigation.navigate(`${path}`, { text: 'Votre inscription a bien été validée' })
+        dispatch(setEmailPassword({ email: email, password: '*******' }))
+        dispatch(setIsLoggedIn(true))
+
+      navigation.navigate(`${path}`, { text: 'Votre inscription a bien été validée', path: 'NavBar' })
 
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
@@ -105,25 +113,20 @@ export default function SliderBar({ slide, path, navigation, text, value, setVal
       } else {
         navigation.navigate("EmailPassword", { message: "Une ereur s'est produite" })
       }
-      console.log(err.code);
     }
   }
 
-
+  const listToMap = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   return (
     <View style={styles.container}>
-      <Text style={{ color: 'red', marginBottom: 5, fontSize: 15 }}>{errorMessage}</Text>
+      <Text style={{ color: 'red', marginBottom: 10, fontSize: 15, maxWidth: '90%', textAlign: 'center' }}>{errorMessage}</Text>
       <View style={styles.sliderBar}>
-        <Text style={slide === 1 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 2 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 3 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 4 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 5 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 6 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 7 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 8 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 9 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
-        <Text style={slide === 10 || slide === 11 ? styles.actualCircle : styles.circle}></Text>
+        {listToMap.map((index) => {
+          return (
+            <Text key={index} style={slide === index || slide === 11 ? styles.actualCircle : styles.circle}></Text>
+          )
+
+        })}
       </View>
       <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => handlePress()}>
         <Text style={{ fontSize: 20, color: "white" }}>{text}</Text>

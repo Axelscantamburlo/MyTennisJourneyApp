@@ -1,12 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 //SCREENS
+
+//LOADER
 import LoaderScreen from "./screens/LoaderScreen";
-import WelcomeScreen from "./screens/WelcomeScreen";
-import NameScreen from "./screens/Register/1/NameScreen";
+// WELCOME
+import WelcomeScreen from "./screens/Welcome/WelcomeScreen";
+//LOGIN
 import Login from "./screens/Login/Login";
+import PasswordResetScreen from "./screens/Login/PasswordResetScreen";
+//REGISTER
+import NameScreen from "./screens/Register/1/NameScreen";
 import SexeScreen from "./screens/Register/2/SexeScreen";
 import AgeScreen from "./screens/Register/3/AgeScreen";
 import SizeScreen from "./screens/Register/4/SizeScreen";
@@ -18,13 +23,11 @@ import GoalsScreen from "./screens/Register/9/GoalsScreen";
 import EmailPasswordScreen from "./screens/Register/10/EmailPasswordScreen";
 import ValidationRegisterScreen from "./screens/Register/11/ValidationRegisterScreen";
 import ValidationLoader from "./screens/Register/12/ValidationLoader";
-import HomePageScreen from "./screens/HomePage/HomePageScreen";
-
+//NAVBAR
+import NavBar from "./components/NavBar";
 //REDUX
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import PasswordResetScreen from "./screens/Login/PasswordResetScreen";
-
 
 const Stack = createStackNavigator();
 
@@ -32,104 +35,87 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Loader">
+        <Stack.Navigator initialRouteName="Loader" screenOptions={{ headerShown: false, gestureEnabled: false }}>
+          {/* LOADER */}
           <Stack.Screen
             name="Loader"
             component={LoaderScreen}
-            options={{ headerShown: false }}
           />
+          {/* WELCOME */}
           <Stack.Screen
             name="Welcome"
             component={WelcomeScreen}
-            options={{
-              headerShown: false,
-              gestureEnabled: false,
-            }}
           />
-          {/* REGISTER */}
-          <Stack.Screen
-            name="Name"
-            component={NameScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="Sexe"
-            component={SexeScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="Age"
-            component={AgeScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="Size"
-            component={SizeScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="Weight"
-            component={WeightScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="LevelPlayer"
-            component={LevelPlayerScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="Ranking"
-            component={RankingScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="RankingGoal"
-            component={RankingGoalScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="Goals"
-            component={GoalsScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="EmailPassword"
-            component={EmailPasswordScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="ValidationRegister"
-            component={ValidationRegisterScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
-          />
-          <Stack.Screen
-            name="ValidationLoader"
-            component={ValidationLoader}
-            options={{ headerShown: false }}
-          />
-
           {/* LOGIN */}
 
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{ headerShown: false, gestureEnabled: false }}
           />
           <Stack.Screen
             name="PasswordReset"
             component={PasswordResetScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
           />
-
-          {/* HOME PAGE */}
+          {/* REGISTER */}
           <Stack.Screen
-            name="HomePage"
-            component={HomePageScreen}
-            options={{ headerShown: false }}
-
+            name="Name"
+            component={NameScreen}
           />
+          <Stack.Screen
+            name="Sexe"
+            component={SexeScreen}
+          />
+          <Stack.Screen
+            name="Age"
+            component={AgeScreen}
+          />
+          <Stack.Screen
+            name="Size"
+            component={SizeScreen}
+          />
+          <Stack.Screen
+            name="Weight"
+            component={WeightScreen}
+          />
+          <Stack.Screen
+            name="LevelPlayer"
+            component={LevelPlayerScreen}
+          />
+          <Stack.Screen
+            name="Ranking"
+            component={RankingScreen}
+          />
+          <Stack.Screen
+            name="RankingGoal"
+            component={RankingGoalScreen}
+          />
+          <Stack.Screen
+            name="Goals"
+            component={GoalsScreen}
+          />
+          <Stack.Screen
+            name="EmailPassword"
+            component={EmailPasswordScreen}
+          />
+          <Stack.Screen
+            name="ValidationRegister"
+            component={ValidationRegisterScreen}
+          />
+          <Stack.Screen
+            name="ValidationLoader"
+            component={ValidationLoader}
+          />
+          {/* HOMEPAGE */}
+          <Stack.Screen
+            name="NavBar"
+            component={NavBar}
+          />
+         
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
 }
+
+
+// https://oblador.github.io/react-native-vector-icons/

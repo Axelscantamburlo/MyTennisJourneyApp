@@ -25,7 +25,7 @@ export default function WelcomeScreen({ navigation }) {
       </TouchableOpacity>
       <View style={styles.loginTextContainer}>
         <Text style={{fontSize: 16}}>Déjà un compte ? </Text>
-        <TouchableHighlight underlayColor='transparent' activeOpacity={0.3} onPress={() => navigation.navigate("Login")}>
+        <TouchableHighlight underlayColor='transparent' activeOpacity={0.3} onPress={() => navigation.navigate("NavBar")}>
           <Text style={{ color: "#6184D8", fontSize: 16 }}>Connectez-vous</Text>
         </TouchableHighlight>
       </View>

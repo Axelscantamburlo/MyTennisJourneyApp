@@ -7,7 +7,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 export default function ValidationLoader({ navigation, route }) {
 
-  const { text } = route.params
+  const { text, path } = route.params
 
   const [animationFinished, setAnimationFinished] = useState(false)
 
@@ -39,7 +39,7 @@ export default function ValidationLoader({ navigation, route }) {
   }
 
   setTimeout(() => {
-    navigation.navigate('HomePage')
+    navigation.navigate(`${path}`)
   }, 3000)
 
   return (
@@ -60,7 +60,7 @@ export default function ValidationLoader({ navigation, route }) {
           <Icon name='check' size={60} color='white' />
         </View>
       </View>
-      {/* <Text style={{fontSize: 20}}>{text}</Text> */}
+      <Text style={{fontSize: 20}}>{text}</Text>
     </View>
 
   )

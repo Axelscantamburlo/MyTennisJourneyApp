@@ -39,7 +39,7 @@ export default function AgeScreen({ navigation }) {
             style={styles.slider}
             minimumValue={8}
             maximumValue={120}
-            minimumTrackTintColor="skyblue"
+            minimumTrackTintColor="black"
             maximumTrackTintColor="orange"
             thumbTintColor="white"
             step={1}

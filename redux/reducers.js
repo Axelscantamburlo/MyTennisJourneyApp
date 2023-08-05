@@ -8,10 +8,10 @@ import {
   SET_USER_RANKING,
   SET_USER_RANKING_GOAL,
   SET_USER_GOALS,
-  SET_USER_EMAIL_PASSWORD
+  SET_USER_EMAIL_PASSWORD,
+  SET_IS_LOGGED_IN
 } from "./actions";
 
-const randomNumber = Math.random();
 
 const initialState = {
   name: "",
@@ -23,7 +23,8 @@ const initialState = {
   ranking: 1,
   rankingGoal: 1,
   goals: [""],
-  emailPassword: { email: '', password: '' }
+  emailPassword: { email: '', password: '' },
+  isLoggedIn: false
 };
 
 const userReducer = (state = initialState, action) => {
@@ -57,6 +58,9 @@ const userReducer = (state = initialState, action) => {
     }
     case SET_USER_EMAIL_PASSWORD: {
       return { ...state, emailPassword: action.payload };
+    }
+    case SET_IS_LOGGED_IN: {
+      return { ...state, isLoggedIn: action.payload };
     }
     default:
       return state;

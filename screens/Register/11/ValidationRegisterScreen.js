@@ -97,8 +97,7 @@ export default function ValidationRegisterScreen({ navigation }) {
             style={{
               borderWidth: 2,
               marginTop: 20,
-              paddingTop: 50,
-              paddingBottom: 50,
+              paddingVertical: 50
             }}
           >
             <Text style={{ textAlign: "center" }}>Courbe à placer</Text>
@@ -281,3 +280,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+

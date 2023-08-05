@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, TouchableHighlight } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import BackIcon from '../../components/BackIcon'
-import { useState } from 'react'
+import Icon from 'react-native-vector-icons/Feather'
 
 // FIREBASE
 
@@ -16,6 +16,7 @@ export default function Login({ navigation }) {
     password: ''
   })
 
+
   const handleInputsChange = (inputToChange, text) => {
     setEmailPassword({ ...emailPassword, [inputToChange]: text })
   }
@@ -29,9 +30,10 @@ export default function Login({ navigation }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        navigation.navigate("ValidationLoader", { text: 'Connexion validée' })
+        navigation.navigate("ValidationLoader", { text: 'Connexion validée', path: 'NavBar' })
       })
       .catch((error) => {
+
         showErrorMessage(error.code)
       });
   }
@@ -40,13 +42,22 @@ export default function Login({ navigation }) {
 
   const showErrorMessage = (error) => {
     if (error === 'auth/invalid-email') {
+      setErrorMessage('Format d\'email invalide')
+    } else if (error === 'auth/user-not-found') {
       setErrorMessage('Email invalide')
     } else if (error === 'auth/wrong-password') {
       setErrorMessage('Mot de passe invalide')
     } else {
-      setErrorMessage(`${error.code}`)
+      setErrorMessage('Une erreur s\'est produite')
     }
   }
+
+  const navigateToResetPassword = () => {
+    navigation.navigate("PasswordReset", { email: email })
+    setErrorMessage('')
+  }
+
+  const [hidePassword, setHidePassword] = useState(true)
 
   return (
     <View style={styles.container}>
@@ -54,13 +65,22 @@ export default function Login({ navigation }) {
       <View style={styles.centerContainer}>
         <Text style={styles.text}>Content de vous revoir !</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.textInput} autoCorrect={false} placeholder="Email" name='email' onChangeText={(text) => handleInputsChange('email', text)} />
-          <TextInput style={styles.textInput} autoCorrect={false} placeholder="Mot de passe" onChangeText={(text) => handleInputsChange('password', text)} />
+          <TextInput autoCapitalize='none' style={styles.textInput} autoCorrect={false} placeholder="Email" name='email' value={email} onChangeText={(text) => handleInputsChange('email', text)} />
+          <View style={{
+            flexDirection: 'row', borderBottomWidth: 1, justifyContent: 'space-between'
+          }}>
+            <TextInput style={[styles.textInput, { width: "90%", borderBottomWidth: 0 }]} autoCorrect={false} placeholder="Mot de passe" secureTextEntry={hidePassword} onChangeText={(text) => handleInputsChange('password', text)} />
+            {password && (
+              <TouchableOpacity activeOpacity={0.5} style={styles.lockBtn} onPress={() => setHidePassword(!hidePassword)}>
+                <Icon color='grey' size={22} name={hidePassword ? 'lock' : 'unlock'} />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
-      <TouchableHighlight style={styles.forgotPassword} underlayColor='transparent' activeOpacity={0.3} onPress={() => navigation.navigate("PasswordReset")}>
-        <Text style={{color: "#6184D8", fontSize: 16}}>Mot de passe oublié</Text>
+      <TouchableHighlight style={styles.forgotPassword} underlayColor='transparent' activeOpacity={0.3} onPress={() => navigateToResetPassword()}>
+        <Text style={{ color: "#6184D8", fontSize: 16 }}>Mot de passe oublié</Text>
       </TouchableHighlight>
       <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => handlePress()}>
         <Text style={{ fontSize: 20, color: "white" }}>Se connecter</Text>
@@ -121,10 +141,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: Platform.OS == 'ios' ? 110 : 90,
 
+  },
+  lockBtn: {
+    display: 'flex',
+    justifyContent: 'center',
+    zIndex: 10,
+    transform: [{ translateX: -15 }]
   }
 })
 
 
-// VERIFIER QUE TOUT MARCHE: REGISTER AVEC LE  PASSWORD QUI SE CACHE DANS REDUX ET DANS FIREBASE (REFLECHIR SI ON AURA JAMAIS BESOIN DU MOT DE PASSE)
-// VERIFIER LA PARTIE LOGIN AVEC LES MESSAGES D ERREUR AINSI QUE LE PasswordRestScreen.js
-//MESSAGE D ERREUR A VERIFIER SUR EmailPAsswordScreen.js CAR LORSQUE ON ARRIVE DE ValidationRegisterScreen L ERREUR S AFFICHE BIEN MAIS NE S ENLEVE PAS EN CAS D AUTRE ERREUR

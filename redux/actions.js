@@ -8,6 +8,7 @@ export const SET_USER_RANKING = 'SET_USER_RANKING';
 export const SET_USER_RANKING_GOAL = 'SET_USER_RANKING_GOAL';
 export const SET_USER_GOALS = 'SET_USER_GOALS';
 export const SET_USER_EMAIL_PASSWORD = 'SET_USER_EMAIL_PASSWORD';
+export const SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN'
 
 export const setName = name => dispatch => {
     dispatch({
@@ -69,5 +70,11 @@ export const setEmailPassword = emailPassword => dispatch => {
     dispatch({
         type: SET_USER_EMAIL_PASSWORD,
         payload: emailPassword
+    })
+}
+export const setIsLoggedIn = isLoggedIn => dispatch => {
+    dispatch({
+        type: SET_IS_LOGGED_IN,
+        payload: isLoggedIn
     })
 }

@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import BackIcon from '../../components/BackIcon'
 
 //FIREBASE
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from '../../config/firebase_config'
 
-export default function PasswordResetScreen({ navigation }) {
-  const [email, setEmail] = useState('')
+export default function PasswordResetScreen({ navigation, route }) {
+
+  const [email, setEmail] = useState(route.params.email)
 
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -15,7 +16,8 @@ export default function PasswordResetScreen({ navigation }) {
   const handlePress = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        console.log('password sent');
+        navigation.navigate("ValidationLoader", { text: 'Email envoyé', path:'Welcome' })
+
       })
       .catch((error) => {
         showErrorMessage(error.code)
@@ -27,7 +29,7 @@ export default function PasswordResetScreen({ navigation }) {
     if (error === 'auth/missing-email') {
       setErrorMessage("Veuillez entrer un email")
     } else if (error === 'auth/invalid-email') {
-      setErrorMessage("Email invalide")
+      setErrorMessage("Format d'email invalide")
     } else if(error === 'auth/user-not-found') {
       setErrorMessage("L'email entré correspond à aucun compte")
     } else {
@@ -35,13 +37,14 @@ export default function PasswordResetScreen({ navigation }) {
     }
   }
 
+
   return (
     <View style={styles.container}>
       <BackIcon path={'Login'} navigation={navigation} />
 
       <View style={styles.centerContainer}>
         <Text style={styles.text}>Réinisialiser le mot de passe</Text>
-        <TextInput style={styles.textInput} autoCorrect={false} placeholder="Email" name='email' onChangeText={(text) => setEmail(text)} />
+        <TextInput style={styles.textInput} autoCorrect={false} value={email} placeholder="Email" name='email' onChangeText={(text) => setEmail(text)} />
       </View>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
 
@@ -95,3 +98,6 @@ const styles = StyleSheet.create({
     bottom: Platform.OS == 'ios' ? 110 : 90,
   },
 })
+
+
+// CREER FONCTION POUR CACHER / AFFICHER MDP
